@@ -87,9 +87,25 @@ async function handleSchemasLatest(url, env) {
   return json(row);
 }
 
-async function handleTemplates(env) {
-  const { results } = await env.DB.prepare(`SELECT * FROM marketplace_templates`).all();
-  return json(results || []);
+export async function handleTemplates(env) {
+  try {
+    const { results } = await env.DB.prepare(`
+      SELECT
+        schema_id AS template_id,
+        title AS name,
+        schema_json AS manifest,
+        version,
+        created_at,
+        updated_at
+      FROM survey_schemas
+      WHERE is_active = 1
+      ORDER BY version DESC, created_at DESC
+    `).all();
+    return json(results || []);
+  } catch (err) {
+    const fallback = await env.DB.prepare(`SELECT * FROM marketplace_templates`).all();
+    return json(fallback.results || []);
+  }
 }
 
 async function handleModelDownload(url, env) {
