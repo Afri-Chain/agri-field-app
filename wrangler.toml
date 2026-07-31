@@ -7,7 +7,6 @@ binding = "DB"
 database_name = "agri-field-db"
 database_id = "9c3735b3-e40b-4ebf-81a0-5ff6ca3d6843"
 
-# Uncomment if you have R2 bucket for models
-# [[r2_buckets]]
-# binding = "MODELS"
-# bucket_name = "agri-models"
+[[r2_buckets]]
+binding = "MODELS"
+bucket_name = "agri-models"

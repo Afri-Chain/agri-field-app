@@ -57,10 +57,20 @@ npm run web
 > Note: Several UI components (FarmerList, FarmerForm, QRScanner, MapView, FormRenderer) are stubs.
 > See README.md for instructions on filling them in from their source repos.
 
-### R2 bucket (optional — for ONNX model serving)
-Uncomment the `[[r2_buckets]]` block in `wrangler.toml` and create the bucket:
+### R2 bucket (ONNX model serving — active)
+- **Bucket**: `agri-models`
+- **Binding**: `MODELS`
+- **Endpoint**: `GET /models/<filename>.onnx`
+- **Test file**: `crop_disease_v1.onnx` (placeholder — replace with real model weights)
+
+To upload a real ONNX model:
 ```bash
-wrangler r2 bucket create agri-models
+wrangler r2 object put agri-models/<model-name>.onnx --file=<path-to-model> --remote
+```
+
+To list bucket contents:
+```bash
+wrangler r2 object list agri-models --remote
 ```
 
 ## User Preferences
