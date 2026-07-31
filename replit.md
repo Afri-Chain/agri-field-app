@@ -43,9 +43,14 @@ wrangler d1 execute agri-field-db --file=schema.sql --remote
 
 Set `SYNC_URL` in the app to `https://agri-sync-worker.africhain-solutions.workers.dev/api/sync/ingest`.
 
+### Installing dependencies
+```bash
+npm install --legacy-peer-deps
+```
+`--legacy-peer-deps` is required because `@anfen/dync` declares a peer on `expo-sqlite >=16` while the project targets Expo SDK 51 (`expo-sqlite@14`). The `tar` override in `package.json` is also needed to satisfy Replit's security policy (blocks `tar@6.x`).
+
 ### Running (Expo web only on Replit)
 ```bash
-npm install
 npm run web
 ```
 

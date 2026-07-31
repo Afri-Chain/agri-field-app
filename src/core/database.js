@@ -91,6 +91,6 @@ export const auditLogTable = createTable('audit_log', {
 export const db = createDatabase({
   tables: [farmerTable, plotTable, surveyTable, syncQueueTable, auditLogTable],
   sync: {
-    endpoint: process.env.SYNC_URL || 'https://your-worker.workers.dev/api/sync/ingest',
+    endpoint: process.env.SYNC_URL || 'https://agri-sync-worker.africhain-solutions.workers.dev/api/sync/ingest',
   },
 });

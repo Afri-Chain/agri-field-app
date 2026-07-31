@@ -18,7 +18,6 @@
     "expo-location": "~17.0.0",
     "expo-barcode-scanner": "~13.0.0",
     "expo-constants": "~16.0.0",
-    "expo-file-system": "~11.0.0",
     "expo-asset": "~10.0.0",
 
     "react": "18.2.0",
@@ -49,7 +48,7 @@
 
     "@react-native-async-storage/async-storage": "1.23.1",
 
-    "vitest": "^2.0.0",
+    "vitest": "^4.1.0",
     "@testing-library/react-native": "^12.4.0"
   },
   "devDependencies": {
@@ -58,6 +57,9 @@
     "typescript": "^5.3.3",
     "eslint": "^8.56.0",
     "prettier": "^3.2.5"
+  },
+  "overrides": {
+    "tar": "^7.5.0"
   },
   "expo": {
     "sdkVersion": "51.0.0",

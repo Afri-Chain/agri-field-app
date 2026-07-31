@@ -14,7 +14,7 @@ export default function SettingsScreen() {
 
   return (
     <View style={{ padding: 16 }}>
-      <Text>Sync endpoint: {process.env.SYNC_URL || 'https://your-worker.workers.dev/api/sync/ingest'}</Text>
+      <Text>Sync endpoint: {process.env.SYNC_URL || 'https://agri-sync-worker.africhain-solutions.workers.dev/api/sync/ingest'}</Text>
       <Text>Pending sync items: {pendingCount}</Text>
     </View>
   );
