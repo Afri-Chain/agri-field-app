@@ -1,0 +1,58 @@
+name: EAS Preview Build
+
+on:
+  push:
+    branches:
+      - testing
+      - preview
+
+jobs:
+  build-preview:
+    name: Build preview APK (EAS)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Restore npm cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Verify EXPO token and account
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          echo "expo whoami:"
+          eas whoami || (echo "EXPO_TOKEN invalid or not set" && exit 1)
+
+      - name: Start EAS build (preview)
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          # Run preview build and capture CLI output for debugging
+          eas build --platform android --profile preview --non-interactive 2>&1 | tee eas-build.log
+          # Save last lines so they are easy to find in logs
+          echo "---- last 40 lines of eas build log ----"
+          tail -n 40 eas-build.log
+
+      - name: Upload build log artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eas-build-log
+          path: eas-build.log
