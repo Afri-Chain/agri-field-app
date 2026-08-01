@@ -1,0 +1,19 @@
+  - name: Use Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: 18
+
+  - name: Install dependencies (legacy peer deps) and capture log
+    run: |
+      set -e
+      echo "Running: npm ci --include=dev --legacy-peer-deps --loglevel verbose"
+      npm ci --include=dev --legacy-peer-deps --loglevel verbose 2>&1 | tee npm-install.log || true
+      echo "---- last 200 lines of npm-install.log ----"
+      tail -n 200 npm-install.log || true
+
+  - name: Upload npm install log
+    if: always()
+    uses: actions/upload-artifact@v4
+    with:
+      name: npm-install-log
+      path: npm-install.log
